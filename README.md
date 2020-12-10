@@ -1,5 +1,21 @@
-[![Build Status](https://api.travis-ci.org/umlet/umlet.svg?branch=master)](https://travis-ci.org/umlet/umlet)
-# UMLet
+# Testing assignment 3
+Jeroen Flietstra: 500748912
+
+Amsterdam University of Applied Sciences 
+
+Tests can be found in "umlet-swing/src/test/java/com/baselet/hvatesting"
+
+Emma is no longer a plugin but can be set in the Run/Debug Configurations. Results are shown below:
+
+![Alt text](code_coverage_screenshot.jpg?raw=true "Title")
+
+In the image the tested classes can be seen:
+* DrawPanel
+* SelectorOld
+* AddElement
+* Search
+
+### UMLet
 UMLet is an open-source UML tool with a simple user interface: draw UML diagrams fast, export diagrams to eps, pdf, jpg, svg, and clipboard, share diagrams using Eclipse, and create new, custom UML elements. 
 
 * Please check out the [Wiki](https://github.com/umlet/umlet/wiki) for frequently asked questions
