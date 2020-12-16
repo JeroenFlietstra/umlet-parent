@@ -46,7 +46,7 @@ public class AddElementTest {
     }
 
     @Test
-    public void GivenMultipleElement_WhenAddMultipleElement_ThenMultipleElementAddedToPanel() {
+    public void GivenMultipleElements_WhenAddMultipleElement_ThenMultipleElementsAddedToPanel() {
         // Given
         GridElement element1 = new Actor();
         AddElement addElement1 = new AddElement(element1, 1, 1, false);
