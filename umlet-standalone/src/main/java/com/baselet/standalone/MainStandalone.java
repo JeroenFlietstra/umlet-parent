@@ -34,6 +34,7 @@ import com.baselet.generator.ClassDiagramConverter;
 import com.baselet.standalone.gui.StandaloneGUI;
 
 public class MainStandalone {
+	// TODO: 16-12-2020 Remove this comment
 
 	private static final Logger log = LoggerFactory.getLogger(MainStandalone.class);
 
