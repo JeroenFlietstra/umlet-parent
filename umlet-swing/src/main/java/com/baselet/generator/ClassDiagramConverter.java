@@ -95,9 +95,7 @@ public class ClassDiagramConverter {
 
 	private SortableElement createElement(String filename) throws Exception {
 		JavaClass parsedClass = parseFile(filename);
-		if (parsedClass == null) {
-			return null;
-		}
+		// TESTING OPDRACHT 5: BUG #5
 
 		String propertiesText = getElementProperties(parsedClass);
 		List<String> propList = Arrays.asList(propertiesText.split("\n"));

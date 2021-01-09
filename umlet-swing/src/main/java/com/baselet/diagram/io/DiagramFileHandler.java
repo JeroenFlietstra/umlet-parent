@@ -215,7 +215,12 @@ public class DiagramFileHandler {
 		String returnString = null;
 
 		try {
+			// TESTING OPDRACHT 5: SECURITY ISSUE #1
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+			dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+			dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+			dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
 			db = dbf.newDocumentBuilder();
 			Document doc = db.newDocument();
 
@@ -245,6 +250,11 @@ public class DiagramFileHandler {
 			StreamResult result = new StreamResult(stringWriter);
 
 			TransformerFactory transFactory = TransformerFactory.newInstance();
+			// TESTING OPDRACHT 5: SECURITY ISSUE #2
+			transFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+			transFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+			transFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+			transFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
 			Transformer transformer = transFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
@@ -264,6 +274,7 @@ public class DiagramFileHandler {
 		try {
 			SAXParserFactory spf = SAXParserFactory.newInstance();
 			if (Config.getInstance().isSecureXmlProcessing()) {
+				// TESTING OPDRACHT 5: SECURITY ISSUE #3
 				// use secure xml processing (see https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Prevention_Cheat_Sheet#JAXP_DocumentBuilderFactory.2C_SAXParserFactory_and_DOM4J)
 				spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 				spf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
@@ -271,10 +282,11 @@ public class DiagramFileHandler {
 				spf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
 			}
 			SAXParser parser = spf.newSAXParser();
-			FileInputStream input = new FileInputStream(file);
-			InputHandler xmlhandler = new InputHandler(handler);
-			parser.parse(input, xmlhandler);
-			input.close();
+			// TESTING OPDRACHT 5: RESOURCE UTILISATION ISSUE #2
+			try (FileInputStream input = new FileInputStream(file)) {
+				InputHandler xmlhandler = new InputHandler(handler);
+				parser.parse(input, xmlhandler);
+			}
 		} catch (Exception e) {
 			log.error("Cannot open the file: " + file.getAbsolutePath(), e);
 		}

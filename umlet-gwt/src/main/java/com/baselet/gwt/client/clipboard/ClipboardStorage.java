@@ -8,7 +8,8 @@ import com.baselet.gwt.client.view.CommandInvoker;
 import com.baselet.gwt.client.view.DrawPanel;
 
 public abstract class ClipboardStorage {
-	protected String CLIPBOARD = "Clipboard";
+	// TESTING OPDRACHT 5: ONDERHOUDSKWETSBAARHEID #3
+
 	protected String SAVE_PREFIX = "s_";
 	private static final CustomLogger log = CustomLoggerFactory.getLogger(ClipboardStorage.class);
 

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.baselet.control.config.SharedConfig;
 import com.baselet.element.interfaces.Diagram;
@@ -72,7 +73,12 @@ public class DiagramGwt implements Diagram {
 			return StickableMap.EMPTY_MAP;
 		}
 		List<Stickable> stickables = getStickables();
-		stickables.removeAll(excludeList);
+		// TESTING OPDRACHT 5: BUG #2
+		List<Stickable> excludedStickables = excludeList.stream()
+				.filter(element -> element instanceof Stickable)
+				.map(element -> (Stickable) element)
+				.collect(Collectors.toList());
+		stickables.removeAll(excludedStickables);
 
 		StickingPolygon stickingBorder = draggedElement.generateStickingBorder();
 		StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(stickingBorder, stickables);

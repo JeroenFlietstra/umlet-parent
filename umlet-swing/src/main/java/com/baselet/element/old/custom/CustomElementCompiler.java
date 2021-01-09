@@ -1,13 +1,6 @@
 package com.baselet.element.old.custom;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -92,9 +85,30 @@ public class CustomElementCompiler {
 			String sourcefile = "\"" + this.sourcefile.getAbsolutePath() + "\"";
 
 			// Compiler Information at http://dev.eclipse.org/viewcvs/index.cgi/jdt-core-home/howto/batch%20compile/batchCompile.html?revision=1.7
+			// TESTING OPDRACHT 5: ONDERHOUDSKWETSBAARHEID #5
 			boolean compilationSuccessful = BatchCompiler.compile(
 					javaVersion + " " + classpath + " " + sourcefile,
-					new PrintWriter(System.out),
+					new PrintWriter(new OutputStream() {
+						private String mem;
+
+						@Override
+						public void write(int b) throws IOException {
+							byte[] bytes = new byte[1];
+							bytes[0] = (byte) (b & 0xff);
+							mem = mem + new String(bytes);
+
+							if (mem.endsWith ("\n")) {
+								mem = mem.substring (0, mem.length () - 1);
+								flush ();
+							}
+						}
+
+						@Override
+						public void flush () {
+							log.info(mem);
+							mem = "";
+						}
+					}),
 					compilerErrorMessagePW, null);
 
 			if (compilationSuccessful) {
@@ -131,12 +145,13 @@ public class CustomElementCompiler {
 		StringBuilder sb = new StringBuilder("");
 		if (sourceFile != null && sourceFile.getName().endsWith(".java")) {
 			try {
-				BufferedReader br = new BufferedReader(new FileReader(sourceFile));
-				String line;
-				while ((line = br.readLine()) != null) {
-					sb.append(line).append(Constants.NEWLINE);
+				// TESTING OPDRACHT 5: RESOURCE UTILISATION ISSUE #3
+				try (BufferedReader br = new BufferedReader(new FileReader(sourceFile))) {
+					String line;
+					while ((line = br.readLine()) != null) {
+						sb.append(line).append(Constants.NEWLINE);
+					}
 				}
-				br.close();
 			} catch (Exception e) {
 				log.error(null, e);
 			}

@@ -19,9 +19,11 @@ public class RunningFileChecker extends TimerTask {
 	public void run() {
 		try {
 			Path.safeCreateFile(file, false);
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-			String filename = reader.readLine();
-			reader.close();
+			String filename;
+			// TESTING OPDRACHT 5: RESOURCE UTILISATION ISSUE #1
+			try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+				filename = reader.readLine();
+			}
 			if (filename != null) {
 				Path.safeDeleteFile(file, false);
 				Path.safeCreateFile(file, true);

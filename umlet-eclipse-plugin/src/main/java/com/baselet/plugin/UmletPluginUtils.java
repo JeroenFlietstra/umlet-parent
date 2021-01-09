@@ -90,7 +90,13 @@ public class UmletPluginUtils {
 			return new Path(src.substring("{@docRoot}".length()));
 		}
 		else {
-			return getCompilationUnitParentPath(unit).append(src);
+			// TESTING OPDRACHT 5: BUG #4
+			IPath path = getCompilationUnitParentPath(unit);
+			if (path != null) {
+				return path.append(src);
+			} else {
+				return null;
+			}
 		}
 	}
 
@@ -100,7 +106,13 @@ public class UmletPluginUtils {
 	 * @throws JavaModelException
 	 */
 	public static IFile getReferencedImgFile(ICompilationUnit cu, String src) throws JavaModelException {
-		return getFile(getPackageFragmentRoot(cu), getRootRelativePath(cu, src));
+		// TESTING OPDRACHT 5: BUG #3
+		IPackageFragmentRoot root = getPackageFragmentRoot(cu);
+		if (root != null) {
+			return getFile(root, getRootRelativePath(cu, src));
+		} else {
+			return null;
+		}
 	}
 
 	public static IFile getFile(IPackageFragmentRoot root, IPath rootRelativePath) throws JavaModelException {
@@ -119,8 +131,9 @@ public class UmletPluginUtils {
 	public static IFile findUmletDiagram(ICompilationUnit unit, String src) throws JavaModelException {
 		IPath imgRef = getRootRelativePath(unit, src);
 		IFile pngFile = getFile(getPackageFragmentRoot(unit), imgRef);
-		IFile uxfFile = getUxfDiagramForImgFile(pngFile);
-		if (uxfFile.exists()) {
+		IFile uxfFile;
+		// TESTING OPDRACHT 5: BUG #1
+		if (pngFile != null && (uxfFile = getUxfDiagramForImgFile(pngFile)).exists()) {
 			return uxfFile;
 		}
 		return null;

@@ -7,6 +7,9 @@ package com.baselet.gwt.client.keyboard;
  */
 class KeyCodesExt {
 
+	// TESTING OPDRACHT 5: ONDERHOUDSKWETSBAARHEID #4
+	private KeyCodesExt() {}
+
 	static boolean isPlus(int code) {
 		return code == 61 || code == 187 || code == 107 || code == 171;
 	}
