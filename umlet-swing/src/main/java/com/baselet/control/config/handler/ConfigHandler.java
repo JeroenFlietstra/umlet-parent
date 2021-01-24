@@ -24,6 +24,7 @@ import com.baselet.control.enums.generator.SortOptions;
 import com.baselet.control.util.Path;
 import com.baselet.control.util.RecentlyUsedFilesList;
 import com.baselet.gui.BaseGUI;
+import com.baselet.security.AES;
 
 public class ConfigHandler {
 
@@ -133,7 +134,7 @@ public class ConfigHandler {
 		cfgMail.setMail_smtp_auth(getBoolProperty(props, MAIL_SMTP_AUTH, cfgMail.isMail_smtp_auth()));
 		cfgMail.setMail_smtp_user(getStringProperty(props, MAIL_SMTP_USER, cfgMail.getMail_smtp_user()));
 		cfgMail.setMail_smtp_pw_store(getBoolProperty(props, MAIL_SMTP_PW_STORE, cfgMail.isMail_smtp_pw_store()));
-		cfgMail.setMail_smtp_pw(getStringProperty(props, MAIL_SMTP_PW, cfgMail.getMail_smtp_pw()));
+		cfgMail.setMail_smtp_pw(AES.decrypt(getStringProperty(props, MAIL_SMTP_PW, cfgMail.getMail_smtp_pw())));
 		cfgMail.setMail_from(getStringProperty(props, MAIL_FROM, cfgMail.getMail_from()));
 		cfgMail.setMail_to(getStringProperty(props, MAIL_TO, cfgMail.getMail_to()));
 		cfgMail.setMail_cc(getStringProperty(props, MAIL_CC, cfgMail.getMail_cc()));
@@ -222,7 +223,7 @@ public class ConfigHandler {
 			}
 			props.setProperty(MAIL_SMTP_PW_STORE, Boolean.toString(cfgMail.isMail_smtp_pw_store()));
 			if (!cfgMail.getMail_smtp_pw().isEmpty()) {
-				props.setProperty(MAIL_SMTP_PW, cfgMail.getMail_smtp_pw());
+				props.setProperty(MAIL_SMTP_PW, AES.encrypt(cfgMail.getMail_smtp_pw()));
 			}
 			if (!cfgMail.getMail_from().isEmpty()) {
 				props.setProperty(MAIL_FROM, cfgMail.getMail_from());
